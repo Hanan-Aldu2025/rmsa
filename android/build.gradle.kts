@@ -1,6 +1,8 @@
 plugins {
-  id("com.google.gms.google-services") version "4.4.3" apply false
-
+    // لا تضعي أرقام إصدارات هنا أبداً، فقط اطلبي التطبيق
+    id("com.android.application") apply false
+    id("org.jetbrains.kotlin.android") apply false
+    id("com.google.gms.google-services") apply false
 }
 
 allprojects {
@@ -9,6 +11,7 @@ allprojects {
         mavenCentral()
     }
 }
+// ... باقي الكود الخاص بـ buildDir يظل كما هو ...
 
 val newBuildDir: Directory =
     rootProject.layout.buildDirectory

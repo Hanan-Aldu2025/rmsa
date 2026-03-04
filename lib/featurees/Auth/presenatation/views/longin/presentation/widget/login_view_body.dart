@@ -9,8 +9,9 @@ import 'package:appp/core/widget/custom_text_filed.dart';
 import 'package:appp/featurees/Auth/presenatation/views/longin/presentation/widget/custom_social_login_button.dart';
 import 'package:appp/featurees/Auth/presenatation/views/signUp/presentation/widget/custom_password_filed.dart';
 import 'package:appp/featurees/Auth/presenatation/views/signUp/presentation/widget/Auth_validators.dart';
-import 'package:appp/featurees/main_Screens/product_screen/dummy_proudect.dart';
+import 'package:appp/featurees/main_screens/bottom_nav_view/presentation/views/bottom_nav_view.dart';
 import 'package:appp/generated/l10n.dart';
+import 'package:appp/test.dart';
 import 'package:appp/utils/app_images.dart';
 import 'package:appp/utils/app_style.dart';
 import 'package:flutter/material.dart';
@@ -35,11 +36,14 @@ class _LoginViewBodyState extends State<LoginViewBody> {
     return BlocListener<LoginCubit, LoginState>(
       listener: (context, state) {
         if (state is LoginSuccess) {
-          Navigator.pushReplacementNamed(context, FakeProductsPage.routeName);
-        } else if (state is LoginFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => BottomNavView()),
           );
+        } else if (state is LoginFailure) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.message)));
         }
       },
       child: SingleChildScrollView(
@@ -88,9 +92,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       _formKey.currentState!.save();
                       FocusScope.of(context).unfocus();
 
-context
-                          .read<LoginCubit>()
-                          .signIn(email!, password!);
+                      context.read<LoginCubit>().signIn(email!, password!);
                     } else {
                       setState(() {
                         _autovalidateMode = AutovalidateMode.always;
@@ -112,7 +114,7 @@ context
                       if (userCredential != null) {
                         Navigator.pushReplacementNamed(
                           context,
-                          FakeProductsPage.routeName,
+                          TestView.routeName,
                         );
                       }
                     } catch (e) {

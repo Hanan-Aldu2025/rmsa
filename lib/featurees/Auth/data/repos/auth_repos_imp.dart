@@ -28,8 +28,9 @@ class AuthReposImp implements AuthRepos {
 
       if (email != null && email.isNotEmpty) {
         // تحقق من صحة البريد
-        final emailRegex =
-            RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+        final emailRegex = RegExp(
+          r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$",
+        );
         if (!emailRegex.hasMatch(email)) {
           return Left(FailureServer("البريد غير صالح"));
         }
@@ -49,7 +50,10 @@ class AuthReposImp implements AuthRepos {
         );
       }
 
-      final userEntity = UserModel.fromFirebaseUser(user, phoneNumber: phoneNumber);
+      final userEntity = UserModel.fromFirebaseUser(
+        user,
+        phoneNumber: phoneNumber,
+      );
       return Right(userEntity);
     } catch (e) {
       return Left(FailureServer('فشل إنشاء المستخدم: ${e.toString()}'));
@@ -109,7 +113,9 @@ class AuthReposImp implements AuthRepos {
   // ================= تسجيل الدخول بالبريد =================
   @override
   Future<Either<Failure, UserEntity>> signInWithEmailOrPhone(
-      String input, String password) async {
+    String input,
+    String password,
+  ) async {
     try {
       final isEmail = input.contains('@');
       String emailToUse = input;
@@ -125,38 +131,53 @@ class AuthReposImp implements AuthRepos {
           return Left(FailureServer('رقم الهاتف غير موجود'));
         }
 
-emailToUse = querySnapshot.docs.first.data()['user_email'] ?? '';
+        emailToUse = querySnapshot.docs.first.data()['user_email'] ?? '';
         if (emailToUse.isEmpty) {
           return Left(FailureServer('لم يتم ربط البريد برقم الهاتف'));
         }
       }
 
-      final user =
-          await firebaseAuthServices.signInWithEmailOrPhone(input: emailToUse, password: password);
+      final user = await firebaseAuthServices.signInWithEmailOrPhone(
+        input: emailToUse,
+        password: password,
+      );
 
-      final doc =
-          await firestore.collection("user_information").doc(user.uid).get();
+      final doc = await firestore
+          .collection("user_information")
+          .doc(user.uid)
+          .get();
       final phoneNumber = doc.data()?['phone_number'] ?? '';
 
-      final userEntity = UserModel.fromFirebaseUser(user, phoneNumber: phoneNumber);
+      final userEntity = UserModel.fromFirebaseUser(
+        user,
+        phoneNumber: phoneNumber,
+      );
       return Right(userEntity);
     } catch (e) {
       return Left(FailureServer('فشل تسجيل الدخول: ${e.toString()}'));
     }
   }
-  
+
   @override
-  Future<Either<Failure, void>> sendPasswordResetEmail({required String email}) {
+  Future<Either<Failure, void>> sendPasswordResetEmail({
+    required String email,
+  }) {
     throw UnimplementedError();
   }
-  
+
   @override
-  Future<Either<Failure, UserEntity>> signInWithEmailAndPassword(String email, String password) {
+  Future<Either<Failure, UserEntity>> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) {
     throw UnimplementedError();
   }
-  
+
   @override
-  Future<Either<Failure, UserEntity>> verifyOtp({required String smsCode, required String verificationId}) {
+  Future<Either<Failure, UserEntity>> verifyOtp({
+    required String smsCode,
+    required String verificationId,
+  }) {
     // TODO: implement verifyOtp
     throw UnimplementedError();
   }

@@ -2,11 +2,10 @@ import 'package:appp/featurees/dash_bord/presentation/views/dash_bord.dart';
 import 'package:appp/featurees/language/presentation/views/language_selection_view.dart';
 import 'package:appp/featurees/Auth/presenatation/views/longin/presentation/views/login_view.dart';
 import 'package:appp/featurees/Auth/presenatation/views/signUp/presentation/views/signup_view.dart';
-import 'package:appp/featurees/main_Screens/product_screen/dummy_proudect.dart';
 import 'package:appp/featurees/mobile_app/presentation/views/mobile.dart';
 import 'package:appp/featurees/on_boarding/presentation/views/on_boarding_view.dart';
-import 'package:appp/featurees/checkout_screens/cart_screen/presentation/views/cart_view.dart';
 import 'package:appp/featurees/splash/presentation/view/splash_view.dart';
+import 'package:appp/test.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -41,16 +40,16 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SignupView());
       //____________________________________________________________
 
-      case FakeProductsPage.routeName:
-        return MaterialPageRoute(builder: (_) => const FakeProductsPage());
+      case TestView.routeName:
+        return MaterialPageRoute(builder: (_) => TestView());
       //____________________________________________________________
 
       //_________________________payment___________________________________
-      
- case CartView.routeName:
-        return MaterialPageRoute(builder: (_) => const CartView());
-        //______________________________________________________________
-        
+
+      //  case TestView.routeName:
+      //         return MaterialPageRoute(builder: (_) => const TestView());
+      //______________________________________________________________
+
       default:
         return MaterialPageRoute(
           builder: (_) =>

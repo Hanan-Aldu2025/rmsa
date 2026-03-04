@@ -1,9 +1,10 @@
 import 'package:appp/featurees/Auth/domain/repos/auth_repos.dart';
 import 'package:appp/featurees/Auth/presenatation/cubits/login_cubit/login_state.dart';
 import 'package:bloc/bloc.dart';
+
 class LoginCubit extends Cubit<LoginState> {
   final AuthRepos authRepos;
-  
+
   LoginCubit(this.authRepos) : super(LoginInitial());
 
   // دالة للتحقق إذا كان المدخل بريدًا إلكترونيًا
@@ -23,12 +24,17 @@ class LoginCubit extends Cubit<LoginState> {
 
     // التحقق من صحة المدخل
     if (!_isValidEmail(emailOrPhone) && !_isValidPhoneNumber(emailOrPhone)) {
-      emit(LoginFailure(message: 'Please enter a valid email or phone number.'));
+      emit(
+        LoginFailure(message: 'Please enter a valid email or phone number.'),
+      );
       return;
     }
 
     // استدعاء الريبو لدالة تسجيل الدخول الموحدة
-    final result = await authRepos.signInWithEmailOrPhone(emailOrPhone, password);
+    final result = await authRepos.signInWithEmailOrPhone(
+      emailOrPhone,
+      password,
+    );
 
     result.fold(
       (failure) {

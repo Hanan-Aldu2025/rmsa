@@ -1,18 +1,15 @@
 import 'package:appp/core/helper_fauniction/on_generate_router.dart';
 import 'package:appp/core/services/auth_listener_account.dart';
+import 'package:appp/core/services/shared_preverences_singleton.dart';
 import 'package:appp/featurees/Auth/presenatation/views/longin/presentation/views/login_view.dart';
-import 'package:appp/featurees/dash_bord/presentation/views/dash_bord.dart';
-import 'package:appp/featurees/main_Screens/product_screen/dummy_proudect.dart';
-import 'package:appp/featurees/on_boarding/presentation/views/on_boarding_view.dart';
-import 'package:appp/featurees/checkout_screens/cart_screen/presentation/cubit/cart_cubit/cart_cubit.dart';
+import 'package:appp/featurees/main_screens/bottom_nav_view/presentation/views/bottom_nav_view.dart';
 import 'package:appp/generated/l10n.dart';
-import 'package:appp/utils/app_colors.dart';
+import 'package:appp/utils/app_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-// استيراد bloc و get_it
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:appp/core/services/get_it_services.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 class AppBootstrap extends StatefulWidget {
   const AppBootstrap({super.key});
@@ -26,67 +23,156 @@ class AppBootstrap extends StatefulWidget {
         .findAncestorStateOfType<_AppBootstrapState>();
     state?.setLocale(newLocale);
   }
+
+  // وأضيفي هذه الدالة لتغيير الثيم (مثل دالة اللغة تماماً)
+  static void setTheme(BuildContext context, bool isDark) {
+    _AppBootstrapState? state = context
+        .findAncestorStateOfType<_AppBootstrapState>();
+    state?.setState(() {
+      state._themeMode = isDark ? ThemeMode.dark : ThemeMode.light;
+    });
+    AppPrefs.setBool('isDark', isDark);
+  }
 }
 
+// class _AppBootstrapState extends State<AppBootstrap> {
+//   final authListener = AuthListener();
+
+//   // القيمة الافتراضية يتم جلبها من التخزين المؤقت
+//   Locale _locale = Locale(
+//     AppPrefs.getString('lang').isEmpty ? 'en' : AppPrefs.getString('lang'),
+//   );
+//   // أضيفي هذا المتغير في الحالة (State)
+//   ThemeMode _themeMode = AppPrefs.getBool('isDark')
+//       ? ThemeMode.dark
+//       : ThemeMode.light;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//     authListener.startListening();
+//     // داخل دالة main بعد ensureInitialized
+//     timeago.setLocaleMessages('ar', timeago.ArMessages());
+//     timeago.setLocaleMessages('en', timeago.EnMessages());
+//   }
+
+//   // هذه الدالة ستقوم بتحديث الواجهة وحفظ اللغة في الجهاز
+//   void setLocale(Locale locale) {
+//     setState(() {
+//       _locale = locale;
+//     });
+//     // حفظ الرمز (ar أو en) في الجهاز
+//     AppPrefs.setString('lang', locale.languageCode);
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       locale: _locale,
+//       themeMode: _themeMode,
+//       theme: AppTheme.lightTheme,
+//       darkTheme: AppTheme.darkTheme,
+//       supportedLocales: S.delegate.supportedLocales,
+//       localizationsDelegates: const [
+//         S.delegate,
+//         GlobalMaterialLocalizations.delegate,
+//         GlobalWidgetsLocalizations.delegate,
+//         GlobalCupertinoLocalizations.delegate,
+//       ],
+//       debugShowCheckedModeBanner: false,
+//       title: 'Ramsa Cafe',
+
+//       // ✅ التعديل الذكي: التحقق إذا كان المستخدم مسجلاً أصلاً
+//       home: const BottomNavView(),
+
+//       // FirebaseAuth.instance.currentUser == null
+//       //     ? const LoginView()
+//       //     : const BottomNavView(),
+//       onGenerateRoute: AppRouter.onGenerateRoute,
+//     );
+//   }
 class _AppBootstrapState extends State<AppBootstrap> {
   final authListener = AuthListener();
 
-  Locale _locale = const Locale("en");
-  //____________________________________//
+  // القيمة الافتراضية يتم جلبها من التخزين المؤقت
+  Locale _locale = Locale(
+    AppPrefs.getString('lang').isEmpty ? 'ar' : AppPrefs.getString('lang'),
+  );
+
+  ThemeMode _themeMode = AppPrefs.getBool('isDark')
+      ? ThemeMode.dark
+      : ThemeMode.light;
+
   @override
   void initState() {
     super.initState();
-    // 🔄 بدء مراقبة حالة الحساب بعد تغيير اللغة
     authListener.startListening();
+    timeago.setLocaleMessages('ar', timeago.ArMessages());
+    timeago.setLocaleMessages('en', timeago.EnMessages());
   }
-  //____________________________________//
 
+  // تحديث اللغة
   void setLocale(Locale locale) {
     setState(() {
       _locale = locale;
     });
+    AppPrefs.setString('lang', locale.languageCode);
   }
-  //____________________________________//
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        // 🟤 Cubit خاص بالمنتجات
-        //  BlocProvider(create: (_) => getIt<ProductCubit>()),
-
-        // 🟤 Cubit خاص بالسلة (مشترك بين كل الصفحات)
-        BlocProvider(create: (_) => getIt<CartCubit>()),
+    return MaterialApp(
+      locale: _locale,
+      themeMode: _themeMode,
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      supportedLocales: S.delegate.supportedLocales,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
       ],
+      debugShowCheckedModeBanner: false,
+      title: 'Ramsa Cafe',
 
-      // 🔹 MaterialApp هو الجذر للتطبيق كله
-      child: MaterialApp(
-        locale: _locale,
-        supportedLocales: S.delegate.supportedLocales,
-        localizationsDelegates: const [
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-
-        debugShowCheckedModeBanner: false,
-        title: 'Ramsa Cafe',
-
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: AppColors.backgroundSceenColor,
-          ),
-        ),
-
-        // 📍 الصفحة التي يبدأ منها التطبيق (صفحة المنتجات التجريبية)
-        initialRoute: LoginView.routeName,
-        //FakeProductsPage.routeName,
-
-        // 🔗 الموجه العام للتنقل بين الصفحات
-        onGenerateRoute: AppRouter.onGenerateRoute,
-      ),
+      // ✅ دائماً اذهب إلى BottomNavView (سواء كان مسجل أو زائر)
+      home: const LoginView(),
+      // FirebaseAuth.instance.currentUser == null
+      // ? const LoginView()
+      // : const BottomNavView(),
+      onGenerateRoute: AppRouter.onGenerateRoute,
     );
   }
 }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return MaterialApp(
+  //     locale: _locale, // سيستخدم القيمة المحدثة دائماً
+  //     //ThemeMode يعتمد على المتغير الذي تم تحديثه من خلال setTheme
+  //     themeMode: _themeMode,
+  //     theme: AppTheme.lightTheme,
+  //     darkTheme: AppTheme.darkTheme,
+  //     supportedLocales: S.delegate.supportedLocales,
+  //     localizationsDelegates: const [
+  //       S.delegate,
+  //       GlobalMaterialLocalizations.delegate,
+  //       GlobalWidgetsLocalizations.delegate,
+  //       GlobalCupertinoLocalizations.delegate,
+  //     ],
+  //     // ... باقي الكود كما هو
+  //     debugShowCheckedModeBanner: false,
+  //     title: 'Ramsa Cafe',
+  //     home: LoginView(),
+  //     // home: ProductsManagerView(),
+  //     // home: AddProductView(),
+  //     // home: AddCategoryView(),
+  //     // home: CategoriesManagerView(),
+
+  //     // 🔗 الموجه العام للتنقل بين الصفحات
+  //     onGenerateRoute: AppRouter.onGenerateRoute,
+  //     // ),
+  //   );
+
+// }

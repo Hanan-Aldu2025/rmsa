@@ -36,7 +36,7 @@ class AuthValidators {
   // Phone Validation
   static String? phone(String? value, BuildContext context) {
     if (value == null || value.isEmpty) {
-      return" S.of(context).enterPhoneNumber";
+      return " S.of(context).enterPhoneNumber";
     }
     final phoneRegex = RegExp(r'^\+?[0-9]{10,15}$');
     if (!phoneRegex.hasMatch(value)) {
