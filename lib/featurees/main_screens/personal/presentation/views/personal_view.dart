@@ -39,27 +39,3 @@ class PersonalView extends StatelessWidget {
     );
   }
 }
-
-// /// صفحة البيانات الشخصية - نقطة الدخول
-// class PersonalView extends StatelessWidget {
-//   final Map<String, dynamic> userData;
-
-//   const PersonalView({super.key, required this.userData});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocProvider(
-//       create: (context) => PersonalCubit(
-//         initialData: userData,
-//         repository: PersonalRepositoryImpl(
-//           remoteDataSource: PersonalRemoteDataSource(),
-//         ),
-//       ),
-//       child: Scaffold(
-//         backgroundColor: Colors.white,
-//         appBar: buildAppBar(context, title: S.of(context).personal),
-//         body: PersonalViewConsumer(),
-//       ),
-//     );
-//   }
-// }

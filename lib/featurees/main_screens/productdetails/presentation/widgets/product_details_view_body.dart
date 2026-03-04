@@ -1,73 +1,93 @@
-// import 'package:appp/generated/l10n.dart';
-// import 'package:appp/utils/app_colors.dart';
-// import 'package:appp/utils/app_style.dart';
-// import 'package:flutter/material.dart';
+// lib/featurees/main_screens/product_details/presentation/views/product_details_view_body.dart
 
-// import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:appp/core/constans/constans_kword.dart';
+import 'package:appp/featurees/main_screens/home/presentation/views/presentation_layer.dart';
+import 'package:appp/featurees/main_screens/productdetails/presentation/cubit/product_details_cubit.dart';
+import 'package:appp/featurees/main_screens/productdetails/presentation/widgets/product_bottom_bar.dart';
+import 'package:appp/featurees/main_screens/productdetails/presentation/widgets/product_extra_options.dart';
+import 'package:appp/featurees/main_screens/productdetails/presentation/widgets/product_image_section.dart';
+import 'package:appp/featurees/main_screens/productdetails/presentation/widgets/product_size_selector.dart';
+import 'package:appp/generated/l10n.dart';
+import 'package:appp/utils/app_colors.dart';
+import 'package:appp/utils/app_style.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// import '../cubit/product_details_cubit.dart';
-// import 'product_extra_options.dart';
-// import 'product_image_section.dart';
-// import 'product_note_field.dart';
-// import 'product_size_selector.dart';
-// import 'product_total_price.dart';
+/// جسم صفحة تفاصيل المنتج
+class ProductDetailsViewBody extends StatelessWidget {
+  const ProductDetailsViewBody({super.key});
 
-// class ProductDetailsViewBody extends StatelessWidget {
-//   const ProductDetailsViewBody({super.key});
+  @override
+  Widget build(BuildContext context) {
+    final lang = S.of(context);
+    final isAr = Localizations.localeOf(context).languageCode == 'ar';
+    final cubit = context.read<ProductDetailsCubit>();
+    final product = cubit.product;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final lang = S.of(context); // استدعاء الترجمة
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: kHorizintalPadding),
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // صورة المنتج
+                    ProductImageSection(imageUrl: product.imageUrl),
 
-//     final cubit = context.read<ProductDetailsCubit>();
-//     final product = cubit.product;
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: kHorizintalPadding,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // اسم المنتج
+                          Text(
+                            isAr ? product.nameAr : capitalize(product.name),
+                            style: AppStyles.titleLora24,
+                          ),
+                          const SizedBox(height: 8),
 
-//     return Column(
-//       children: [
-//         Expanded(
-//           child: SingleChildScrollView(
-//             padding: const EdgeInsets.all(16),
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 ProductImageSection(imageUrl: product.imageUrl),
-//                 const SizedBox(height: 16),
+                          // وصف المنتج
+                          Text(
+                            isAr ? product.descriptionAr : product.description,
+                            textAlign: TextAlign.justify,
+                            style: AppStyles.InriaSerif_16.copyWith(
+                              color: AppColors.GrayIconColor,
+                              height: 1.8,
+                            ),
+                          ),
+                          const SizedBox(height: 20),
 
-//                 Text(product.name, style: AppStyles.titleLora24),
-//                 const SizedBox(height: 8),
-//                 Text(
-//                   product.description,
-//                   style: AppStyles.InriaSerif_16.copyWith(
-//                     color: AppColors.GrayIconColor,
-//                   ),
-//                 ),
-//                 const SizedBox(height: 16),
-//                 Text(lang.selectSize, style: AppStyles.titleLora18),
-//                 SizedBox(height: 10),
-//                 ProductSizeSelector(sizes: product.sizes),
-//                 const SizedBox(height: 24),
-//                 ProductExtraOptions(options: cubit.extraOptions),
-//                 // const SizedBox(height: 24),
-//                 // const ProductNoteField(
-//                 //   title: '"Add your note"',
-//                 //   hitText: 'Write your note',
-//                 // ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         const Divider(),
-//         Container(
-//           padding: const EdgeInsets.only(
-//             left: 16,
-//             right: 16,
-//             top: 8,
-//             bottom: 16,
-//           ),
-//           color: AppColors.whiteColor,
-//           child: const ProductTotalPrice(),
-//         ),
-//       ],
-//     );
-//   }
-// }
+                          // اختيار الحجم
+                          if (product.sizes.isNotEmpty) ...[
+                            Text(lang.selectSize, style: AppStyles.titleLora18),
+                            const SizedBox(height: 10),
+                            ProductSizeSelector(sizes: product.sizes),
+                            const SizedBox(height: 24),
+                          ],
+
+                          // الخيارات الإضافية
+                          ProductExtraOptions(options: cubit.extraOptions),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const Divider(height: 1),
+
+            // الشريط السفلي
+            const ProductBottomBar(),
+          ],
+        ),
+      ),
+    );
+  }
+}

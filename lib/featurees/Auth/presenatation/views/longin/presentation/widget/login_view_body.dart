@@ -114,7 +114,7 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                       if (userCredential != null) {
                         Navigator.pushReplacementNamed(
                           context,
-                          TestView.routeName,
+                          BottomNavView.routeName,
                         );
                       }
                     } catch (e) {

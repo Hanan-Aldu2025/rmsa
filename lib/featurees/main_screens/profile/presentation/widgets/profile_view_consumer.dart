@@ -1,3 +1,4 @@
+import 'package:appp/featurees/Auth/presenatation/views/longin/presentation/views/login_view.dart';
 import 'package:appp/featurees/main_screens/profile/presentation/cubit/profile_cubit.dart';
 import 'package:appp/featurees/main_screens/profile/presentation/cubit/profile_state.dart';
 import 'package:appp/featurees/main_screens/profile/presentation/widgets/profile_view_body.dart';
@@ -16,12 +17,18 @@ class ProfileViewConsumer extends StatelessWidget {
 
     return BlocConsumer<ProfileCubit, ProfileState>(
       listener: (context, state) {
-        if (state is ProfileSuccess) {
+        if (state is ProfileLogoutSuccess) {
+          // التنقل إلى صفحة تسجيل الدخول ومسح كل الصفحات السابقة
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (_) => const LoginView()),
+            (route) => false,
+          );
+        } else if (state is ProfileSuccess) {
           ScaffoldMessenger.of(
             context,
           ).showSnackBar(SnackBar(content: Text(state.message)));
-        }
-        if (state is ProfileFailure) {
+        } else if (state is ProfileFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.errorMessage),

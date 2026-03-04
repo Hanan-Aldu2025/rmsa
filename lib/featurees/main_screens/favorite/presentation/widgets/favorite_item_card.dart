@@ -2,6 +2,8 @@
 
 import 'package:appp/featurees/main_screens/favorite/presentation/widgets/quantity_button.dart';
 import 'package:appp/featurees/main_screens/home/presentation/views/domain_layer.dart';
+import 'package:appp/featurees/main_screens/home/presentation/views/presentation_layer.dart';
+import 'package:appp/generated/l10n.dart';
 import 'package:appp/utils/app_colors.dart';
 import 'package:appp/utils/app_style.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -27,6 +29,15 @@ class FavoriteItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final langCode = Localizations.localeOf(context).languageCode;
+    final lang = S.of(context);
+
+    // تحديد النص المعروض حسب اللغة
+    String displayName = langCode == 'ar' ? product.nameAr : product.name;
+
+    // تطبيق capitalize فقط إذا كانت اللغة إنجليزية
+    if (langCode == 'en') {
+      displayName = capitalize(displayName); // تحويل أول حرف إلى كبير
+    }
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
@@ -67,7 +78,7 @@ class FavoriteItemCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  langCode == 'ar' ? product.nameAr : product.name,
+                  displayName,
                   style: AppStyles.textLora16.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -77,7 +88,7 @@ class FavoriteItemCard extends StatelessWidget {
                 Row(
                   children: [
                     Text(
-                      '${product.price} ر.س',
+                      '${product.price} ${lang.sar}',
                       style: AppStyles.InriaSerif_14.copyWith(fontSize: 15),
                     ),
                     const SizedBox(width: 12),

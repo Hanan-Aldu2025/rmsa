@@ -6,9 +6,10 @@ import 'package:appp/featurees/main_screens/favorite/data/repositories/favorites
 import 'package:appp/featurees/main_screens/favorite/presentation/cubit/favorites_cubit.dart';
 import 'package:appp/featurees/main_screens/home/presentation/views/data_layer.dart';
 import 'package:appp/featurees/main_screens/home/presentation/views/presentation_layer.dart';
-import 'package:appp/featurees/main_screens/location_branches/presentation/views/location_data_layer.dart';
-import 'package:appp/featurees/main_screens/location_branches/presentation/views/location_presentation_layer.dart';
-import 'package:appp/featurees/main_screens/notification/presentation/views/notification_presentation_layer.dart';
+import 'package:appp/featurees/main_screens/location_branches/data/datasources/location_remote_data_source.dart';
+import 'package:appp/featurees/main_screens/location_branches/data/repositories/location_repository_impl.dart';
+import 'package:appp/featurees/main_screens/location_branches/presentation/cubit/location_branches_cubit.dart';
+import 'package:appp/featurees/main_screens/notification/presentation/cubit/notification_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,6 +18,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// الصفحة الرئيسية للتنقل السفلي
 class BottomNavView extends StatelessWidget {
+  static const routeName = "BottomNavView";
+
   const BottomNavView({super.key});
 
   @override

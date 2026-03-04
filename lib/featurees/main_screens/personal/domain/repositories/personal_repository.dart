@@ -17,16 +17,3 @@ abstract class PersonalRepository {
     required String newPassword,
   });
 }
-
-// /// واجهة Personal Repository - تحدد العقود التي يجب تنفيذها في طبقة البيانات
-// abstract class PersonalRepository {
-//   /// تحديث بيانات المستخدم
-//   Future<Either<Failure, void>> updatePersonalProfile({
-//     required String uid,
-//     required String name,
-//     required String phone,
-//     required String email,
-//     required String oldPassword,
-//     required String newPassword,
-//   });
-// }

@@ -1,85 +1,90 @@
-// import 'package:appp/featurees/main_screens/productdetails/data/model/extra_option_item_model.dart';
-// import 'package:flutter_bloc/flutter_bloc.dart';
+// lib/featurees/main_screens/product_details/presentation/cubit/product_details_cubit.dart
 
-// import '../../../home/data/models/product_model.dart';
-// import 'product_details_state.dart';
+import 'package:appp/featurees/main_screens/home/presentation/views/domain_layer.dart';
+import 'package:appp/featurees/main_screens/productdetails/data/model/extra_option_item_model.dart';
+import 'package:appp/featurees/main_screens/productdetails/presentation/cubit/product_details_state.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-// class ProductDetailsCubit extends Cubit<ProductDetailsState> {
-//   ProductDetailsCubit(this.product) : super(ProductDetailsInitial()) {
-//     _initialize();
-//   }
+/// Cubit المسؤول عن منطق صفحة تفاصيل المنتج
+class ProductDetailsCubit extends Cubit<ProductDetailsState> {
+  final ProductEntity product;
+  String? selectedSize;
+  double totalPrice = 0;
+  late List<ExtraOptionItemModel> extraOptions;
 
-//   final ProductModel product;
-//   String? selectedSize;
-//   double totalPrice = 0;
-//   late List<ExtraOptionItemModel> extraOptions;
-//   void _initialize() {
-//     if (product.sizes.isNotEmpty) {
-//       // ترتيب القائمة بناءً على السعر (من الأرخص للأغلى)
-//       // هذا يضمن أن Small يظهر أولاً لأنه عادة الأرخص
-//       product.sizes.sort((a, b) => a.price.compareTo(b.price));
+  ProductDetailsCubit(this.product) : super(ProductDetailsInitial()) {
+    _initialize();
+  }
 
-//       // اختيار الحجم الأرخص كافتراضي
-//       selectedSize = product.sizes.first.size;
-//       totalPrice = product.sizes.first.price;
-//     }
+  /// تهيئة البيانات
+  void _initialize() {
+    // ترتيب الأحجام حسب السعر
+    if (product.sizes.isNotEmpty) {
+      final sortedSizes = List.from(product.sizes)
+        ..sort((a, b) => a.price.compareTo(b.price));
+      selectedSize = sortedSizes.first.size;
+      totalPrice = sortedSizes.first.price;
+    } else {
+      totalPrice = product.price;
+    }
 
-//     extraOptions = product.extraOption
-//         .where((e) => e.option.toLowerCase() != 'nooption')
-//         .map((e) => ExtraOptionItemModel(label: e.option, price: e.price ?? 0))
-//         .toList();
+    // تهيئة الخيارات الإضافية
+    extraOptions = product.extraOption
+        .where((e) => e.option.toLowerCase() != 'nooption')
+        .map((e) => ExtraOptionItemModel(label: e.option, price: e.price ?? 0))
+        .toList();
 
-//     for (var option in extraOptions) {
-//       option.isChecked.addListener(_recalculateTotal);
-//     }
+    // الاستماع لتغييرات الخيارات
+    for (var option in extraOptions) {
+      option.isChecked.addListener(_recalculateTotal);
+    }
 
-//     emit(
-//       ProductDetailsLoaded(
-//         selectedSize: selectedSize,
-//         totalPrice: totalPrice,
-//         extraOptions: extraOptions,
-//       ),
-//     );
-//   }
+    _emitLoaded();
+  }
 
-//   void _recalculateTotal() {
-//     if (state is! ProductDetailsLoaded) return;
+  /// إعادة حساب السعر الإجمالي
+  void _recalculateTotal() {
+    double sizePrice = product.price;
 
-//     double sizePrice = 0;
-//     if (selectedSize != null) {
-//       final size = product.sizes.firstWhere(
-//         (s) => s.size == selectedSize,
-//         orElse: () => product.sizes.first,
-//       );
-//       sizePrice = size.price;
-//     }
+    if (selectedSize != null && product.sizes.isNotEmpty) {
+      final selectedSizeObj = product.sizes.firstWhere(
+        (s) => s.size == selectedSize,
+        orElse: () => product.sizes.first,
+      );
+      sizePrice = selectedSizeObj.price;
+    }
 
-//     double extras = extraOptions
-//         .where((e) => e.isChecked.value)
-//         .fold(0, (sum, e) => sum + e.price);
+    final extras = extraOptions
+        .where((e) => e.isChecked.value)
+        .fold(0.0, (sum, e) => sum + e.price);
 
-//     totalPrice = sizePrice + extras;
+    totalPrice = (sizePrice + extras);
+    _emitLoaded();
+  }
 
-//     emit(
-//       ProductDetailsLoaded(
-//         selectedSize: selectedSize,
-//         totalPrice: totalPrice,
-//         extraOptions: extraOptions,
-//       ),
-//     );
-//   }
+  /// اختيار حجم معين
+  void selectSize(String size) {
+    selectedSize = size;
+    _recalculateTotal();
+  }
 
-//   void selectSize(String size) {
-//     selectedSize = size;
-//     _recalculateTotal();
-//   }
+  /// إرسال الحالة المحدثة
+  void _emitLoaded() {
+    emit(
+      ProductDetailsLoaded(
+        selectedSize: selectedSize,
+        totalPrice: totalPrice,
+        extraOptions: extraOptions,
+      ),
+    );
+  }
 
-//   @override
-//   Future<void> close() {
-//     for (var option in extraOptions) {
-//       option.isChecked.removeListener(_recalculateTotal);
-//       option.isChecked.dispose();
-//     }
-//     return super.close();
-//   }
-// }
+  @override
+  Future<void> close() {
+    // التخلص من المستمعين
+    for (var option in extraOptions) {
+      option.isChecked.dispose();
+    }
+    return super.close();
+  }
+}

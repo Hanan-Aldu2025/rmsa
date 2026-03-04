@@ -10,9 +10,10 @@ import 'package:appp/featurees/main_screens/favorite/presentation/cubit/favorite
 import 'package:appp/featurees/main_screens/home/presentation/views/data_layer.dart';
 import 'package:appp/featurees/main_screens/home/presentation/views/domain_layer.dart';
 import 'package:appp/featurees/main_screens/home/presentation/widgets/product_grid_view_item.dart';
+import 'package:appp/featurees/main_screens/notification/presentation/cubit/notification_cubit.dart';
+import 'package:appp/featurees/main_screens/notification/presentation/cubit/notification_state.dart';
 import 'package:appp/featurees/main_screens/notification/presentation/views/notification_presentation_layer.dart';
 import 'package:appp/featurees/main_screens/notification/presentation/views/notification_view.dart';
-import 'package:appp/featurees/main_screens/productdetails/presentation/views/details_presentation_layer.dart';
 import 'package:appp/featurees/main_screens/productdetails/presentation/views/product_details_view.dart';
 import 'package:appp/generated/l10n.dart';
 import 'package:appp/utils/app_colors.dart';

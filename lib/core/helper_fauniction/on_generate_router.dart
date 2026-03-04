@@ -2,6 +2,7 @@ import 'package:appp/featurees/dash_bord/presentation/views/dash_bord.dart';
 import 'package:appp/featurees/language/presentation/views/language_selection_view.dart';
 import 'package:appp/featurees/Auth/presenatation/views/longin/presentation/views/login_view.dart';
 import 'package:appp/featurees/Auth/presenatation/views/signUp/presentation/views/signup_view.dart';
+import 'package:appp/featurees/main_screens/bottom_nav_view/presentation/views/bottom_nav_view.dart';
 import 'package:appp/featurees/mobile_app/presentation/views/mobile.dart';
 import 'package:appp/featurees/on_boarding/presentation/views/on_boarding_view.dart';
 import 'package:appp/featurees/splash/presentation/view/splash_view.dart';
@@ -40,8 +41,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const SignupView());
       //____________________________________________________________
 
-      case TestView.routeName:
-        return MaterialPageRoute(builder: (_) => TestView());
+      case BottomNavView.routeName:
+        return MaterialPageRoute(builder: (_) => BottomNavView());
       //____________________________________________________________
 
       //_________________________payment___________________________________

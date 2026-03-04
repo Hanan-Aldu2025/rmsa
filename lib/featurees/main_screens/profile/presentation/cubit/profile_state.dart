@@ -41,35 +41,5 @@ class ProfileFailure extends ProfileState {
   List<Object?> get props => [errorMessage];
 }
 
-// abstract class ProfileState extends Equatable {
-//   const ProfileState();
-
-//   @override
-//   List<Object?> get props => [];
-// }
-
-// /// الحالة الأولية
-// class ProfileInitial extends ProfileState {}
-
-// /// حالة التحميل
-// class ProfileLoading extends ProfileState {}
-
-// /// حالة النجاح
-// class ProfileSuccess extends ProfileState {
-//   final String message;
-
-//   const ProfileSuccess({required this.message});
-
-//   @override
-//   List<Object?> get props => [message];
-// }
-
-// /// حالة الفشل
-// class ProfileFailure extends ProfileState {
-//   final String errorMessage;
-
-//   const ProfileFailure({required this.errorMessage});
-
-//   @override
-//   List<Object?> get props => [errorMessage];
-// }
+/// حالة
+class ProfileLogoutSuccess extends ProfileState {}

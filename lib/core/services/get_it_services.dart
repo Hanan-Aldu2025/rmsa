@@ -1,6 +1,7 @@
-import 'package:appp/featurees/main_screens/notification/presentation/views/notification_data_layer.dart';
-import 'package:appp/featurees/main_screens/notification/presentation/views/notification_domain_layer.dart';
-import 'package:appp/featurees/main_screens/notification/presentation/views/notification_presentation_layer.dart';
+import 'package:appp/featurees/main_screens/notification/data/datasources/notifications_remote_data_source.dart';
+import 'package:appp/featurees/main_screens/notification/data/repositories/notifications_repository_impl.dart';
+import 'package:appp/featurees/main_screens/notification/domain/repositories/notifications_repository.dart';
+import 'package:appp/featurees/main_screens/notification/presentation/cubit/notification_cubit.dart';
 import 'package:get_it/get_it.dart';
 import 'package:appp/core/services/firebase_auth_services.dart';
 import 'package:appp/featurees/Auth/data/repos/auth_repos_imp.dart';

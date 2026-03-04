@@ -77,6 +77,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
+  /// تسجيل الخروج
   Future<void> logout() async {
     // إلغاء الاشتراك لمنع تحديثات لاحقة
     await _userSubscription?.cancel();
@@ -88,8 +89,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     // تسجيل الخروج من Firebase
     await FirebaseAuth.instance.signOut();
 
-    // إرسال حالة نجاح الخروج
-    emit(ProfileSuccess(message: "تم الخروج من التطبيق"));
+    // إرسال حالة نجاح الخروج (بدون رسالة)
+    emit(ProfileLogoutSuccess());
   }
 
   @override

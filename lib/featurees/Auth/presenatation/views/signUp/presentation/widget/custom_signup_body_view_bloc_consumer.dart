@@ -1,5 +1,6 @@
 import 'package:appp/featurees/Auth/presenatation/cubits/signup_cubit/signup_cubit.dart';
 import 'package:appp/featurees/Auth/presenatation/views/signUp/presentation/widget/signup_view_body.dart';
+import 'package:appp/featurees/main_screens/bottom_nav_view/presentation/views/bottom_nav_view.dart';
 import 'package:appp/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +17,7 @@ class SignupBodyBlocConsumer extends StatelessWidget {
           //  Navigation عند نجاح التسجيل
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => TestView()),
+            MaterialPageRoute(builder: (_) => BottomNavView()),
           );
         }
 

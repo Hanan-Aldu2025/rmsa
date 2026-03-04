@@ -5,7 +5,8 @@ import 'package:appp/featurees/main_screens/bottom_nav_view/presentation/widgets
 import 'package:appp/featurees/main_screens/favorite/presentation/cubit/favorites_cubit.dart';
 import 'package:appp/featurees/main_screens/favorite/presentation/views/favorites_view.dart';
 import 'package:appp/featurees/main_screens/home/presentation/views/presentation_layer.dart';
-import 'package:appp/featurees/main_screens/location_branches/presentation/views/location_presentation_layer.dart';
+import 'package:appp/featurees/main_screens/location_branches/presentation/cubit/location_branches_cubit.dart';
+import 'package:appp/featurees/main_screens/location_branches/presentation/views/location_branches_view.dart';
 import 'package:appp/featurees/main_screens/profile/presentation/views/profile_view.dart';
 import 'package:appp/utils/app_colors.dart';
 import 'package:flutter/material.dart';

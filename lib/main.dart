@@ -1,7 +1,9 @@
 import 'package:appp/core/app.dart';
 import 'package:appp/core/services/custom_bloc_observer.dart';
 import 'package:appp/core/services/get_it_services.dart';
+import 'package:appp/core/services/notification_service.dart';
 import 'package:appp/core/services/shared_preverences_singleton.dart';
+import 'package:appp/featurees/main_screens/notification/presentation/cubit/notification_cubit.dart';
 import 'package:appp/featurees/main_screens/notification/presentation/views/notification_presentation_layer.dart';
 import 'package:appp/featurees/splash/view_model/splash_view_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
