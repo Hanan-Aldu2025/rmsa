@@ -140,6 +140,45 @@ class ProductEntity {
     required this.sizes,
     required this.extraOption,
   });
+
+  /// نسخ مع تعديل بعض الحقول
+  ProductEntity copyWith({
+    String? id,
+    String? name,
+    String? nameAr,
+    String? imageUrl,
+    double? price,
+    bool? isAvailable,
+    String? categoryId,
+    List<String>? branchIds,
+    String? description,
+    String? descriptionAr,
+    double? discount,
+    int? points,
+    String? selectedSize,
+    List<String>? avaliableSize,
+    List<ProductSizeEntity>? sizes,
+    List<ExtraOptionEntity>? extraOption,
+  }) {
+    return ProductEntity(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      nameAr: nameAr ?? this.nameAr,
+      imageUrl: imageUrl ?? this.imageUrl,
+      price: price ?? this.price,
+      isAvailable: isAvailable ?? this.isAvailable,
+      categoryId: categoryId ?? this.categoryId,
+      branchIds: branchIds ?? this.branchIds,
+      description: description ?? this.description,
+      descriptionAr: descriptionAr ?? this.descriptionAr,
+      discount: discount ?? this.discount,
+      points: points ?? this.points,
+      selectedSize: selectedSize ?? this.selectedSize,
+      avaliableSize: avaliableSize ?? this.avaliableSize,
+      sizes: sizes ?? this.sizes,
+      extraOption: extraOption ?? this.extraOption,
+    );
+  }
 }
 
 /// كيان حجم المنتج
