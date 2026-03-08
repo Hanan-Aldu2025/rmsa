@@ -2,7 +2,7 @@
 
 import 'package:appp/featurees/main_screens/change_account/presentation/cubit/change_account_cubit.dart';
 import 'package:appp/featurees/main_screens/change_account/presentation/cubit/change_account_state.dart';
-import 'package:appp/featurees/main_screens/change_account/presentation/views/change_account_view_body.dart';
+import 'package:appp/featurees/main_screens/change_account/presentation/widgets/change_account_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';

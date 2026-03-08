@@ -137,7 +137,7 @@ class _AppBootstrapState extends State<AppBootstrap> {
       title: 'Ramsa Cafe',
 
       // ✅ دائماً اذهب إلى BottomNavView (سواء كان مسجل أو زائر)
-      home: const LoginView(),
+      home: BottomNavView(),
       // FirebaseAuth.instance.currentUser == null
       // ? const LoginView()
       // : const BottomNavView(),

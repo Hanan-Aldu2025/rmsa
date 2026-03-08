@@ -3,12 +3,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserModel extends UserEntity {
   const UserModel({
-    required super.name,
-    required super.email,
-    required super.uId,
-    required super.phoneNumber,
-    required super.emailVerified,
-  });
+    required String name,
+    required String email,
+    required String uId,
+    required String phoneNumber,
+    required bool emailVerified,
+  }) : super(
+          name: name,
+         email: email,
+          uId: uId,
+          phoneNumber: phoneNumber,
+          emailVerified: emailVerified,
+        );
 
   // ✅ هنا نضيف named parameter phoneNumber بشكل رسمي
   factory UserModel.fromFirebaseUser(User user, {String phoneNumber = ""}) {

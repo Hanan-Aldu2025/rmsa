@@ -10,7 +10,7 @@ abstract class AuthRepos {
     String password,
     String name, {
     required String phoneNumber, // الهاتف إلزامي
-    required bool verifyEmail, // تحقق البريد
+    required bool verifyEmail,   // تحقق البريد
   });
 
   // ================= تسجيل الدخول بالبريد فقط =================
